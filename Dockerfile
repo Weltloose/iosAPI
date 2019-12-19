@@ -12,4 +12,4 @@ WORKDIR $GOPATH/bin
 
 EXPOSE 8081
 
-CMD ["./testGo"]
+CMD ["./testGo &"]
