@@ -2,8 +2,9 @@ package views
 
 import (
 	"fmt"
-	"strconv"
 	"io/ioutil"
+	"strconv"
+
 	"github.com/Weltloose/testGo/dal/mongodb"
 	"github.com/gin-gonic/gin"
 )
@@ -86,7 +87,7 @@ func LeaveGroup(c *gin.Context) {
 }
 
 func GetGroupList(c *gin.Context) {
-	username := c.PostForm("username")
+	username := c.Query("username")
 	groupList := mongodb.GetGroupList(username)
 	c.JSON(200, gin.H{
 		"groupList": groupList,
@@ -94,7 +95,7 @@ func GetGroupList(c *gin.Context) {
 }
 
 func GetEventList(c *gin.Context) {
-	username := c.PostForm("username")
+	username := c.Query("username")
 	fmt.Println("form: ", c.Request.FormValue("username"))
 	fmt.Println("postform: ", username)
 	eventList := mongodb.GetEventList(username)
