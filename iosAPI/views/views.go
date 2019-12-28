@@ -112,14 +112,15 @@ func AddEvent(c *gin.Context) {
 		GroupID  int
 		FromTime string
 		ToTime   string
-		Content  string
+		Theme    string
+		Desc     string
 	}{}
 	addEvent.GroupID, _ = strconv.Atoi(c.PostForm("groupID"))
 	addEvent.FromTime = c.PostForm("timeFrom")
 	addEvent.ToTime = c.PostForm("timeTo")
-	addEvent.Content = c.PostForm("content")
-	mongodb.AddEvent(addEvent.GroupID, addEvent.FromTime, addEvent.ToTime, addEvent.Content)
-
+	addEvent.Theme = c.PostForm("theme")
+	addEvent.Desc = c.PostForm("desc")
+	mongodb.AddEvent(addEvent.GroupID, addEvent.FromTime, addEvent.ToTime, addEvent.Theme, addEvent.Desc)
 }
 
 func EditEvent(c *gin.Context) {
@@ -128,14 +129,17 @@ func EditEvent(c *gin.Context) {
 		EventID  int
 		FromTime string
 		ToTime   string
-		Content  string
+		Theme    string
+		Desc     string
 	}{}
 	editEvent.GroupID, _ = strconv.Atoi(c.PostForm("groupID"))
 	editEvent.EventID, _ = strconv.Atoi(c.PostForm("eventID"))
 	editEvent.FromTime = c.PostForm("timeFrom")
 	editEvent.ToTime = c.PostForm("timeTo")
-	editEvent.Content = c.PostForm("content")
-	mongodb.EditEvent(editEvent.GroupID, editEvent.EventID, editEvent.FromTime, editEvent.ToTime, editEvent.Content)
+	editEvent.Theme = c.PostForm("theme")
+	editEvent.Desc = c.PostForm("desc")
+
+	mongodb.EditEvent(editEvent.GroupID, editEvent.EventID, editEvent.FromTime, editEvent.ToTime, editEvent.Theme, editEvent.Desc)
 
 }
 

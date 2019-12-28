@@ -10,7 +10,8 @@ type Event struct {
 	EventID  int    `json:"eventID"`
 	TimeFrom string `json:"timeFrom"`
 	TimeTo   string `json:"timeTo"`
-	Content  string `json:"content"`
+	Theme    string `json:"theme"`
+	Desc     string `json:"desc"`
 }
 
 type GroupInfo struct {

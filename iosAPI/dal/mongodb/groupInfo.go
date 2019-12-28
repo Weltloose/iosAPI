@@ -68,7 +68,7 @@ func GetEvents(groupID int) []Event {
 	return res.Events
 }
 
-func AddEvent(groupID int, fromTime, toTime, Content string) {
+func AddEvent(groupID int, fromTime, toTime, Theme, Desc string) {
 	var res GroupInfo
 	err := groupInfoC.Find(bson.M{"groupid": groupID}).One(&res)
 	if err != nil {
@@ -81,7 +81,8 @@ func AddEvent(groupID int, fromTime, toTime, Content string) {
 		EventID:  eid,
 		TimeFrom: fromTime,
 		TimeTo:   toTime,
-		Content:  Content,
+		Theme:    Theme,
+		Desc:     Desc,
 	}
 	var opt []Event
 	ok := false
@@ -108,7 +109,7 @@ func AddEvent(groupID int, fromTime, toTime, Content string) {
 	MainHub.Broadcast <- wsret
 }
 
-func EditEvent(groupID, eventID int, fromTime, toTime, Content string) {
+func EditEvent(groupID, eventID int, fromTime, toTime, Theme, Desc string) {
 	var res GroupInfo
 	err := groupInfoC.Find(bson.M{"groupid": groupID}).One(&res)
 	if err != nil {
@@ -120,7 +121,8 @@ func EditEvent(groupID, eventID int, fromTime, toTime, Content string) {
 		if val.EventID == eventID {
 			evList[i].TimeFrom = fromTime
 			evList[i].TimeTo = toTime
-			evList[i].Content = Content
+			evList[i].Theme = Theme
+			evList[i].Desc = Desc
 		}
 	}
 	// 修改后按TimeFrom重新排序好
