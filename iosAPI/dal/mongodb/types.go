@@ -14,9 +14,10 @@ type Event struct {
 }
 
 type GroupInfo struct {
-	GroupID int
-	Users   []string
-	Events  []Event
+	GroupID   int
+	Users     []string
+	Events    []Event
+	GroupName string
 }
 
 type EventListOpt struct {

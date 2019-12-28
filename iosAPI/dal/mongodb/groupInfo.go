@@ -8,7 +8,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-func CreateGroup(username string) int {
+func CreateGroup(username string, groupname string) int {
 	id := redis.AddMaxGroupID()
 	if id == -1 {
 		return -1
@@ -18,6 +18,7 @@ func CreateGroup(username string) int {
 		Users: []string{
 			username,
 		},
+		GroupName: groupname,
 	}
 	err := groupInfoC.Insert(&group)
 	if err != nil {
@@ -31,6 +32,9 @@ func CreateGroup(username string) int {
 }
 
 func JoinGroup(username string, groupID int) bool {
+	if !checkInGroup(username, groupID) {
+		return false
+	}
 	err := groupInfoC.Update(bson.M{"groupid": groupID}, bson.M{"$push": bson.M{"users": username}})
 	if err != nil {
 		fmt.Println("update error ", err)
@@ -159,4 +163,18 @@ func DeleteEvent(groupID, eventID int) {
 			return
 		}
 	}
+}
+
+func GetGroupName(groupList []int) []string {
+	var opt []string
+	for _, groupID := range groupList {
+		var res GroupInfo
+		err := groupInfoC.Find(bson.M{"groupid": groupID}).One(&res)
+		if err != nil {
+			fmt.Println("get groupInfo error ", err)
+			return nil
+		}
+		opt = append(opt, res.GroupName)
+	}
+	return opt
 }

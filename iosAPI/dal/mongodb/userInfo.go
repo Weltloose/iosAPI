@@ -54,6 +54,22 @@ func userLeaveGroup(username string, groupID int) bool {
 	return true
 }
 
+func checkInGroup(username string, groupID int) bool {
+	var user UserInfo
+	err := userInfoC.Find(bson.M{"username": username}).One(&user)
+	if err != nil {
+		fmt.Println("user info find error: ", err)
+		return false
+	}
+	for _, val := range user.Groups {
+		if val == groupID {
+			fmt.Println("group already in")
+			return false
+		}
+	}
+	return true
+}
+
 func GetGroupList(username string) []int {
 	var user UserInfo
 	err := userInfoC.Find(bson.M{"username": username}).One(&user)

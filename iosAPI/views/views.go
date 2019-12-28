@@ -47,8 +47,9 @@ func Register(c *gin.Context) {
 
 func CreateGroup(c *gin.Context) {
 	username := c.PostForm("username")
-	fmt.Println("username ", username)
-	id := mongodb.CreateGroup(username)
+	groupname := c.PostForm("groupname")
+	fmt.Println("username groupname ", username, groupname)
+	id := mongodb.CreateGroup(username, groupname)
 	c.JSON(200, gin.H{
 		"groupID": id,
 	})
@@ -89,8 +90,10 @@ func LeaveGroup(c *gin.Context) {
 func GetGroupList(c *gin.Context) {
 	username := c.Query("username")
 	groupList := mongodb.GetGroupList(username)
+	groupName := mongodb.GetGroupName(groupList)
 	c.JSON(200, gin.H{
-		"groupList": groupList,
+		"groupList":  groupList,
+		"groupnames": groupName,
 	})
 }
 
